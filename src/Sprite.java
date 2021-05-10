@@ -1,7 +1,3 @@
-package sprite;
-
-import org.jetbrains.annotations.NotNull;
-
 import java.awt.*;
 import java.util.*;
 import java.io.*;
@@ -20,7 +16,7 @@ public class Sprite implements Iterable<BufferedImage>
 	protected BufferedImage img;
 	protected final int frameWidth, frameHeight, rows, columns;
 	protected final HashMap<Point, BufferedImage> frames;
-	protected Grid.Direction direction;
+	//protected Grid.Direction direction;
 	protected Iterator<BufferedImage> iter;
 	protected PrimitiveIterator.OfInt columnIter;
 
@@ -93,7 +89,7 @@ public class Sprite implements Iterable<BufferedImage>
 	 * @return an iterator over the frames of the sprite sheet
 	 */
 	@Override
-	public @NotNull Iterator<BufferedImage> iterator()
+	public Iterator<BufferedImage> iterator()
 	{
 		return new SpriteIterator();
 	}

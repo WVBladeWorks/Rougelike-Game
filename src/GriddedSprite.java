@@ -1,5 +1,3 @@
-package sprite;
-
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.ImageObserver;
