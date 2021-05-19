@@ -49,27 +49,27 @@ public class Player
 	}
 	public void checkAnimation()
 	{
-		if (XVel == 0 && grounded == true)
+		if (XVel == 0 && grounded == true && player.getIcon() != images.get("Idle"))
 		{
 			player.setIcon(images.get("Idle"));
 		}
-		if (XVel == 0 && grounded == false)
+		if (XVel == 0 && grounded == false && player.getIcon() != images.get("Fall"))
 		{
 			player.setIcon(images.get("Fall"));
 		}
-		if (XVel != 0 && grounded == false)
+		if (XVel != 0 && grounded == false && player.getIcon() != images.get("AirIdle"))
 		{
 			player.setIcon(images.get("AirIdle"));
 		}
-		if (XVel != 0 && grounded == true)
+		if (XVel != 0 && grounded == true && player.getIcon() != images.get("Run"))
 		{
 			player.setIcon(images.get("Run"));
 		}
-		if (crouch == true && XVel == 0)
+		if (crouch == true && XVel == 0 && player.getIcon() != images.get("Crouch"))
 		{
 			player.setIcon(images.get("Crouch"));
 		}
-		if (crouch == true && XVel != 0)
+		if (crouch == true && XVel != 0 && player.getIcon() != images.get("Idle"))
 		{
 			player.setIcon(images.get("Slide"));
 		}
