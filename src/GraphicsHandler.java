@@ -20,8 +20,11 @@ public class GraphicsHandler extends JPanel implements ActionListener
         PLATFORM_WIDTH = 100;
         PLATFORM_HEIGHT = 50;
         platforms.add(new Rectangle(1280, 1000, PLATFORM_WIDTH, PLATFORM_HEIGHT));
-        timer = new Timer(1, this);
+        timer = new Timer(50, this);
         tickCount = 0;
+
+        this.repaint();
+        timer.start();
     }
 
     @Override
@@ -45,17 +48,19 @@ public class GraphicsHandler extends JPanel implements ActionListener
                 platforms.add(new Rectangle(1280, 100 * (rng.nextInt(10) + 1)));
 
             this.repaint();
-            tickCount++;
+            tickCount += 50;
         }
     }
 
     @Override
     public void paintComponent(Graphics g)
     {
+        super.paintComponent(g);
+
+        g.setColor(Color.BLACK);
         for (Rectangle rect : platforms)
         {
-            g.setColor(Color.BLACK);
-            g.drawRect(rect.x, rect.y, rect.width, rect.height);
+            g.drawRect(rect.x, rect.y, PLATFORM_WIDTH, PLATFORM_HEIGHT);
         }
     }
 }
