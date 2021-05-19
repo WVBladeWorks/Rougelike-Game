@@ -15,7 +15,7 @@ public class GraphicsHandler extends JPanel implements ActionListener
     public GraphicsHandler()
     {
         rng = new Random();
-        platforms = new LinkedList<Rectangle>();
+        platforms = new LinkedList<>();
         PLATFORM_VELOCITY = 10;
         PLATFORM_WIDTH = 100;
         PLATFORM_HEIGHT = 50;
@@ -32,10 +32,19 @@ public class GraphicsHandler extends JPanel implements ActionListener
             //Move platforms left
             if (tickCount % (1000/PLATFORM_VELOCITY) == 0)
             {
-                platforms.forEach(rect -> rect.x -= 1);
+                for (Rectangle rect : platforms)
+                {
+                    rect.x -= 1;
+                    if (rect.x <= -1 * PLATFORM_WIDTH)
+                        platforms.remove(rect);
+                }
             }
 
+            //Spawn Platforms
+            if (tickCount % 1000 == 0)
+                platforms.add(new Rectangle(1280, 100 * (rng.nextInt(10) + 1)));
 
+            this.repaint();
             tickCount++;
         }
     }
@@ -43,6 +52,10 @@ public class GraphicsHandler extends JPanel implements ActionListener
     @Override
     public void paintComponent(Graphics g)
     {
-
+        for (Rectangle rect : platforms)
+        {
+            g.setColor(Color.BLACK);
+            g.drawRect(rect.x, rect.y, rect.width, rect.height);
+        }
     }
 }
