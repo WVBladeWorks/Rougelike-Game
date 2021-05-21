@@ -1,2 +1,2 @@
 language = "bash"
-run = "java src/Main.java"
+run = "cd src; javac *.java; java Main"

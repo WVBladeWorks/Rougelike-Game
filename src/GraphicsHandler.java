@@ -16,11 +16,11 @@ public class GraphicsHandler extends JPanel implements ActionListener
     {
         rng = new Random();
         platforms = new LinkedList<>();
-        PLATFORM_VELOCITY = 10;
+        PLATFORM_VELOCITY = 50;
         PLATFORM_WIDTH = 100;
-        PLATFORM_HEIGHT = 50;
-        platforms.add(new Rectangle(1280, 1000, PLATFORM_WIDTH, PLATFORM_HEIGHT));
-        timer = new Timer(50, this);
+        PLATFORM_HEIGHT = 25;
+        platforms.add(new Rectangle(600, 1000, PLATFORM_WIDTH, PLATFORM_HEIGHT));
+        timer = new Timer(1, this);
         tickCount = 0;
 
         this.repaint();
@@ -45,12 +45,14 @@ public class GraphicsHandler extends JPanel implements ActionListener
 
             //Spawn Platforms
             if (tickCount % 1000 == 0)
-                platforms.add(new Rectangle(1280, 100 * (rng.nextInt(10) + 1)));
+                platforms.add(new Rectangle(600, 100 * (rng.nextInt(10) + 1), PLATFORM_WIDTH, PLATFORM_HEIGHT));
 
             this.repaint();
-            tickCount += 50;
+            tickCount += 1;
         }
     }
+
+    
 
     @Override
     public void paintComponent(Graphics g)
