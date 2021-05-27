@@ -7,11 +7,13 @@ public class Player
 	private boolean grounded = true;
 	private boolean crouch = false;
 	private boolean dogde = false;
+  private int jumps = 2;
 	private int XVel = 0;
 	private int YVel = 0;
-	public Player()
+	public Player(int x, int y, int width, int height)
 	{
 		player = new JLabel();
+    player.setBounds(x, y, width, height);
 		images = new HashMap<>();
 		images.put("AirAttack", new ImageIcon("Character/Character/- Gif/AirAttack.gif"));
 		images.put("AirIdle", new ImageIcon("Character/Character/- Gif/AirIdle.gif"));
@@ -31,6 +33,10 @@ public class Player
 		images.put("DeathFinal", new ImageIcon("Character/Character/Death/adventurer-die-06.png"));
 		player.setIcon(images.get("Idle"));
 	}
+  public JLabel getComponent()
+  {
+    return player;
+  }
 	public int getYVelocity()
 	{
 		return YVel;
@@ -39,6 +45,14 @@ public class Player
 	{
 		return XVel;
 	}
+  public boolean isGrounded()
+  {
+    return grounded;
+  }
+  public void setGrounded(boolean grounded)
+  {
+    this.grounded = grounded;
+  }
 	public void setYVelocity(int YVel)
 	{
 		this.YVel = YVel;
@@ -52,6 +66,7 @@ public class Player
 		if (XVel == 0 && grounded == true && player.getIcon() != images.get("Idle"))
 		{
 			player.setIcon(images.get("Idle"));
+      jumps = 2;
 		}
 		if (XVel == 0 && grounded == false && player.getIcon() != images.get("Fall"))
 		{
@@ -64,6 +79,7 @@ public class Player
 		if (XVel != 0 && grounded == true && player.getIcon() != images.get("Run"))
 		{
 			player.setIcon(images.get("Run"));
+      jumps = 2;
 		}
 		if (crouch == true && XVel == 0 && player.getIcon() != images.get("Crouch"))
 		{
@@ -73,6 +89,5 @@ public class Player
 		{
 			player.setIcon(images.get("Slide"));
 		}
-
 	}
 }
