@@ -14,6 +14,7 @@ public class GraphicsHandler extends JPanel implements ActionListener
     private Timer timer;
     private int tickCount;
     private Player player;
+    private Dimension screenSize;
     private Image platform;
     private Image backgroundImage;
     //900width by 587height
@@ -23,17 +24,20 @@ public class GraphicsHandler extends JPanel implements ActionListener
         rng = new Random();
         keys = new HashSet<>();
         platforms = new LinkedList<>();
-        PLATFORM_VELOCITY = 50;
-        PLATFORM_WIDTH = this.getWidth * 1/10;
-        PLATFORM_HEIGHT = this.getHeight * 1/30;
+        PLATFORM_VELOCITY = 250;
+        PLATFORM_WIDTH = 100;
+        PLATFORM_HEIGHT = 50;
         G_ACCEL = 25;
         PLAYER_X_VELOCITY = 50;
         PLAYER_JUMP_VELOCITY = 50;
-        platforms.add(new Rectangle(600, 1000, PLATFORM_WIDTH, PLATFORM_HEIGHT));
-        player = new Player(0, 0, 100, 100);
+        screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+      
+      //Starting Platforms
+        platforms.add(new Rectangle(0,  (screenSize.height*9/10), PLATFORM_WIDTH, PLATFORM_HEIGHT));
+        player = new Player(0, screenSize.height*4/5, 100, 100);
+        
         timer = new Timer(1, this);
         tickCount = 0;
-        player = new Player();
         backgroundImage = Toolkit.getDefaultToolkit().getImage("Misc/DarkForest.png");
         platform = Toolkit.getDefaultToolkit().getImage("Misc/Platforms.png");
         this.add(player.getComponent());
@@ -53,7 +57,10 @@ public class GraphicsHandler extends JPanel implements ActionListener
                 {
                     rect.x -= 1;
                     if (rect.x <= -1 * PLATFORM_WIDTH)
+                    {
                         platforms.remove(rect);
+                        break;
+                    }
                 }
             }
             //Gravity
@@ -67,14 +74,38 @@ public class GraphicsHandler extends JPanel implements ActionListener
 
             //Spawn Platforms
             if (tickCount % 1000 == 0)
-                platforms.add(new Rectangle(600, 100 * (rng.nextInt(10) + 1), PLATFORM_WIDTH, PLATFORM_HEIGHT));
+                platforms.add(new Rectangle(screenSize.width, 100 + screenSize.height/10 * rng.nextInt(10), PLATFORM_WIDTH, PLATFORM_HEIGHT));
+
+            //Player Location Setting
+            if (player.getXVelocity() != 0 && tickCount % 1000/Math.abs(player.getXVelocity()) == 0)
+            {
+              System.out.println("DEBUG");
+              player.translate((int)Math.signum((double)player.getXVelocity()), 0);
+            }
+            if (player.getYVelocity() != 0 && tickCount % 1000/Math.abs(player.getYVelocity()) == 0)
+            {
+              player.translate(0, (int)Math.signum((double)player.getYVelocity()));
+            }
+
 
             //Move Player Left/Right
-            //Exception in thread: if (tickCount % (1000/Math.abs(player.getXVelocity())) == 0)
-            if(keys.contains(KeyEvent.VK_D))
+            if(keys.contains(KeyEvent.VK_RIGHT))
               player.setXVelocity(PLAYER_X_VELOCITY);
-            else if(keys.contains(KeyEvent.VK_A))
+            else if(keys.contains(KeyEvent.VK_LEFT))
               player.setXVelocity(-1 * PLAYER_X_VELOCITY);
+
+            //Collision Detection
+            for (Rectangle rect : platforms)
+            {
+              if (player.getBounds().intersects(rect))
+              {
+                if (player.getBounds().intersection(rect).y == rect.y && player.getYVelocity() > 0)
+                {
+                  player.setYVelocity(0);
+                  player.setGrounded(true);
+                }
+              }
+            }
 
             //Start Jump
             if (keys.contains(KeyEvent.VK_SPACE))
@@ -108,11 +139,16 @@ public class GraphicsHandler extends JPanel implements ActionListener
 
         g.drawImage(backgroundImage, 0, 0, this.getWidth(), this.getHeight(), this);
         
+       //test this plz 
+       g.drawRect(0, 0, screenSize.width, PLATFORM_HEIGHT);
+       g.drawImage(platform, 0, 0, screenSize.width, PLATFORM_HEIGHT, this);
+
+
         g.setColor(Color.BLACK);
         for (Rectangle rect : platforms)
         {
             g.drawRect(rect.x, rect.y, PLATFORM_WIDTH, PLATFORM_HEIGHT);
-            //g.drawImage(platform, rect.x, rect.y, this);
+            g.drawImage(platform, rect.x, rect.y, PLATFORM_WIDTH, PLATFORM_HEIGHT, this);
         }
       
 

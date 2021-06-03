@@ -1,15 +1,23 @@
 import java.util.*;
 import javax.swing.*;
+import java.awt.*;
 public class Player
 {
 	private JLabel player;
 	private HashMap<String, ImageIcon> images;
-	private boolean grounded = true;
+	private boolean grounded = false;
 	private boolean crouch = false;
 	private boolean dogde = false;
   private int jumps = 2;
 	private int XVel = 0;
 	private int YVel = 0;
+  private int health = 100;
+  private final int PLATFORM_VELOCITY = 250;
+  private int playerx;
+  private int playery;
+  private int playerwidth;
+  private int player
+
 	public Player(int x, int y, int width, int height)
 	{
 		player = new JLabel();
@@ -37,6 +45,10 @@ public class Player
   {
     return player;
   }
+  public Rectangle getBounds()
+  {
+    return player.getBounds();
+  }
 	public int getYVelocity()
 	{
 		return YVel;
@@ -52,6 +64,11 @@ public class Player
   public void setGrounded(boolean grounded)
   {
     this.grounded = grounded;
+    
+  }
+  public void translate(int dx, int dy)
+  {
+    player.setLocation(player.getX() + dx, player.getY() + dy);
   }
 	public void setYVelocity(int YVel)
 	{
@@ -61,6 +78,7 @@ public class Player
 	{
 		this.XVel = XVel;
 	}
+
 	public void checkAnimation()
 	{
 		if (XVel == 0 && grounded == true && player.getIcon() != images.get("Idle"))
@@ -90,4 +108,31 @@ public class Player
 			player.setIcon(images.get("Slide"));
 		}
 	}
+
+  public void attackAnimation()
+  {
+    if(XVel == 0 && player.getIcon() != images.get("Attack"))
+    {
+      player.setIcon(images.get("Attack"));
+    }
+    if(XVel != 0 && grounded == false && player.getIcon() != images.get("AirAttack"))
+    {
+      player.setIcon(images.get("AirAttack"));
+    }
+  }
+
+  public boolean attack()
+  {
+    //Rectangle attackBox = new Rectangle()
+    return true;
+  }
+
+  public void deathAnimation()
+  {
+    if(health != 0)
+    {
+       player.setIcon(images.get("Death"));
+    }
+  }
+  
 }
