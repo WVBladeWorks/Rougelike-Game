@@ -1,15 +1,20 @@
 import javax.swing.*;
+import java.awt.*;
+
 
 public class Main {
     public static void main(String[] args)
     {
-        JFrame frame = new JFrame("Replay");
-        frame.setContentPane(new GraphicsHandler());
-        frame.setVisible(true);
+
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        JFrame frame = new JFrame("Chrono-Fall");
+        frame.setContentPane(new Title());
+        //frame.setContentPane(new GraphicsHandler());
         frame.setFocusable(true);
         frame.setFocusTraversalKeysEnabled(false);
-        frame.setSize(600, 600);
+        frame.setSize(screenSize.width, screenSize.height);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.revalidate();
+        frame.setVisible(true);
+        
     }
 }
